@@ -6,10 +6,22 @@
       </a>
     </div>
     <div class="nav navbar-nav navbar-right">
-      <div>
-        <button type="button" class="btn btn-warning"><a href="#"><i class="far fa-user"></i> Sign In</a></button>&nbsp;
-        <button type="button" class="btn btn-warning"><a href="#"><i class="fas fa-sign-in-alt"></i> Sign Up</a></button>
-      </div>
+      <div *ngIf="userAuthorized; then authorizedBlock; else nonAuthorizedBlock"></div>
     </div>
   </nav>
 </div>
+
+<ng-template #authorizedBlock>
+  <div>
+    <button type="button" class="btn btn-warning"><a href="#"><i class="fas fa-user"></i> Profile</a></button>&nbsp;
+    <button type="button" class="btn btn-warning"><a href="#"><i class="fas fa-cog"></i> Settings</a></button>&nbsp;
+    <button type="button" class="btn btn-warning"><a href="#"><i class="fas fa-door-open"></i> Sign Out</a></button>
+  </div>
+</ng-template>
+
+<ng-template #nonAuthorizedBlock>
+  <div>
+    <button type="button" class="btn btn-warning"><a href="#"><i class="fas fa-user"></i> Sign In</a></button>&nbsp;
+    <button type="button" class="btn btn-warning"><a href="#"><i class="fas fa-sign-in-alt"></i> Sign Up</a></button>
+  </div>
+</ng-template>
