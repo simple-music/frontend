@@ -1,0 +1,22 @@
+<div>
+  <h3>{{ user.username }}</h3>
+  <img src="https://via.placeholder.com/150" alt="avatar">
+  <table>
+    <tr>
+      <td>Name:</td>
+      <td>{{ user.fullName }}</td>
+    </tr>
+    <tr>
+      <td>Email:</td>
+      <td>{{ user.email }}</td>
+    </tr>
+    <tr>
+      <td>Date of birth:</td>
+      <td>{{ user.dateOfBirth | date:'yyyy-MM-dd' }}</td>
+    </tr>
+    <tr>
+      <td>Musical instruments:</td>
+      <td>{{ user.musicalInstruments.join(', ') }}</td>
+    </tr>
+  </table>
+</div>
