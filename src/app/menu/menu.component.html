@@ -1,15 +1,13 @@
-<div class="container">
-  <nav class="navbar navbar-dark bg-dark">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">
-        <h1>SimpleMusic</h1>
-      </a>
-    </div>
-    <div class="nav navbar-nav navbar-right">
-      <div *ngIf="userAuthorized; then authorizedBlock; else nonAuthorizedBlock"></div>
-    </div>
-  </nav>
-</div>
+<nav class="navbar navbar-dark bg-dark">
+  <div class="navbar-header">
+    <a class="navbar-brand" href="#">
+      <h1>SimpleMusic</h1>
+    </a>
+  </div>
+  <div class="nav navbar-nav navbar-right">
+    <div *ngIf="userAuthorized; then authorizedBlock; else nonAuthorizedBlock"></div>
+  </div>
+</nav>
 
 <ng-template #authorizedBlock>
   <div>
