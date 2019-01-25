@@ -1,6 +1,7 @@
 <div>
-  <h3>{{ user.username }}</h3>
-  <img src="https://via.placeholder.com/150" alt="avatar">
+  <h3>{{ user.username }}</h3><br/>
+  <app-subscription [subscriptionId]="userId"></app-subscription><br/><br/>
+  <app-user-avatar [userId]="userId"></app-user-avatar><br/><br/>
   <table>
     <tr>
       <td>Name:</td>
