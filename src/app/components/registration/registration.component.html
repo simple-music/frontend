@@ -5,25 +5,25 @@
       <form>
         <div class="form-group">
           <label for="usernameInput">Username:</label>
-          <input type="text" class="form-control" id="usernameInput" [(ngModel)]="user.username" name="username">
+          <input [(ngModel)]="user.username" class="form-control" id="usernameInput" name="username" type="text">
         </div>
         <div class="form-group">
           <label for="passwordInput">Password:</label>
-          <input type="password" class="form-control" id="passwordInput" [(ngModel)]="user.password" name = password>
+          <input [(ngModel)]="user.password" class="form-control" id="passwordInput" name=password type="password">
         </div>
         <div class="form-group">
           <label for="passwordConfirmationInput">Password confirmation:</label>
-          <input type="password" class="form-control" id="passwordConfirmationInput" name="passwordConfirmation">
+          <input class="form-control" id="passwordConfirmationInput" name="passwordConfirmation" type="password">
         </div>
         <div class="form-group">
           <label for="emailInput">Email:</label>
-          <input type="email" class="form-control" id="emailInput" [(ngModel)]="user.email" name="email">
+          <input [(ngModel)]="user.email" class="form-control" id="emailInput" name="email" type="email">
         </div>
         <div class="form-group">
           <label for="nameInput">Name:</label>
-          <input type="email" class="form-control" id="nameInput" [(ngModel)]="user.fullName" name="fullName">
+          <input [(ngModel)]="user.fullName" class="form-control" id="nameInput" name="fullName" type="email">
         </div>
-        <button type="submit" class="btn btn-primary" (click)="onBtnSubmitClick()">Submit</button>
+        <button (click)="onBtnSubmitClick()" class="btn btn-primary" type="submit">Submit</button>
       </form>
     </div>
   </div>

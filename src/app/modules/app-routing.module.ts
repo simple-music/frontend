@@ -6,11 +6,11 @@ import {RegistrationComponent} from '../components/registration/registration.com
 import {SettingsComponent} from '../settings/settings.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'registration', component: RegistrationComponent },
-  { path: 'user/:id', component: UserComponent },
-  { path: 'settings', component: SettingsComponent },
+  {path: '', redirectTo: '/login', pathMatch: 'full'},
+  {path: 'login', component: LoginComponent},
+  {path: 'registration', component: RegistrationComponent},
+  {path: 'user/:id', component: UserComponent},
+  {path: 'settings', component: SettingsComponent},
 ];
 
 @NgModule({

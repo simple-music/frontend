@@ -1,4 +1,4 @@
-import { Credentials } from './credentials';
+import {Credentials} from './credentials';
 
 describe('Credentials', () => {
   it('should create an instance', () => {
