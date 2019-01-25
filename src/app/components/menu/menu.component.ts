@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-menu',
@@ -8,9 +9,10 @@ import {Component, OnInit} from '@angular/core';
 export class MenuComponent implements OnInit {
   userAuthorized = false;
 
-  constructor() {
+  constructor(private authService: AuthService) {
   }
 
   ngOnInit() {
+    this.userAuthorized = this.authService.sessionInfo != null;
   }
 }

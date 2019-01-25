@@ -10,6 +10,7 @@ import {UserProfileComponent} from '../components/user/user-profile/user-profile
 import {UserAvatarComponent} from '../components/user/user-profile/user-avatar/user-avatar.component';
 import {SubscriptionComponent} from '../components/user/user-profile/subscription/subscription.component';
 import {UsersListComponent} from '../components/user/users-list/users-list.component';
+import {UsersListItemComponent} from '../components/user/users-list/users-list-item/users-list-item.component';
 import {UserSubscribersComponent} from '../components/user/user-subscribers/user-subscribers.component';
 import {UserSubscriptionsComponent} from '../components/user/user-subscriptions/user-subscriptions.component';
 
@@ -23,6 +24,7 @@ import {UserSubscriptionsComponent} from '../components/user/user-subscriptions/
     UserAvatarComponent,
     SubscriptionComponent,
     UsersListComponent,
+    UsersListItemComponent,
     UserSubscribersComponent,
     UserSubscriptionsComponent,
   ],

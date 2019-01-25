@@ -17,11 +17,12 @@ export class SubscriptionComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.authService.authId === this.subscriptionId) {
+    const userId = this.authService.sessionInfo.userId;
+    if (userId === this.subscriptionId) {
       return;
     }
     this.subscriptionsService
-      .checkSubscription(this.authService.authId, this.subscriptionId)
+      .checkSubscription(userId, this.subscriptionId)
       .subscribe(ok => this.isSubscribed = ok);
   }
 }

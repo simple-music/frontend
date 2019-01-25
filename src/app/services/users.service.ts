@@ -13,7 +13,7 @@ export class UsersService {
   getUser(userId): Observable<User> {
     return of({
       id: '1eb9127b-bd40-47c6-aff4-c4f9b2fc8616',
-      username: 'user',
+      username: 'user' + Math.random().toString(),
       email: 'user@example.com',
       fullName: 'User Name',
       dateOfBirth: new Date(1990, 1, 1),
