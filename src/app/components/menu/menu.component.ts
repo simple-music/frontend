@@ -25,4 +25,18 @@ export class MenuComponent implements OnInit {
   onBtnSignUpClick() {
     this.router.navigate(['/registration']);
   }
+
+  onBtnProfileClick() {
+    this.router.navigate(['/user/' + this.authService.sessionInfo.userId]);
+  }
+
+  onBtnSettingsClick() {
+    this.router.navigate(['/settings']);
+  }
+
+  onBtnLogoutClick() {
+    this.authService.logout();
+    this.userAuthorized = false;
+    this.router.navigate(['/login']);
+  }
 }

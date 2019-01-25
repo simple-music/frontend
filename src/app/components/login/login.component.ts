@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     if (this.authService.sessionInfo) {
-      this.router.navigate(['/user/' + this.authService.sessionInfo.userId])
+      this.router.navigate(['/user/' + this.authService.sessionInfo.userId]);
     }
   }
 }
