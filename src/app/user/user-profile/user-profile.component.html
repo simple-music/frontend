@@ -10,11 +10,11 @@
       <td>Email:</td>
       <td>{{ user.email }}</td>
     </tr>
-    <tr>
+    <tr *ngIf="user.dateOfBirth">
       <td>Date of birth:</td>
       <td>{{ user.dateOfBirth | date:'yyyy-MM-dd' }}</td>
     </tr>
-    <tr>
+    <tr *ngIf="user.musicalInstruments && user.musicalInstruments.length > 0">
       <td>Musical instruments:</td>
       <td>{{ user.musicalInstruments.join(', ') }}</td>
     </tr>
