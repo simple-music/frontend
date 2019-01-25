@@ -8,7 +8,8 @@ import {Component, Input, OnInit} from '@angular/core';
 export class UsersListComponent implements OnInit {
   @Input() usersIds: Array<string>;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

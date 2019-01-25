@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 
 @Injectable({
@@ -6,7 +6,8 @@ import {Observable, of} from 'rxjs';
 })
 export class AvatarsService {
 
-  constructor() { }
+  constructor() {
+  }
 
   getAvatar(userId: string): Observable<string> {
     return of('https://via.placeholder.com/150');

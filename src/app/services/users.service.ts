@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {User} from '../models/user';
 import {Observable, of} from 'rxjs';
 
@@ -7,7 +7,8 @@ import {Observable, of} from 'rxjs';
 })
 export class UsersService {
 
-  constructor() { }
+  constructor() {
+  }
 
   getUser(userId): Observable<User> {
     return of({

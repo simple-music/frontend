@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { AvatarsService } from './avatars.service';
+import {AvatarsService} from './avatars.service';
 
 describe('AvatarsService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

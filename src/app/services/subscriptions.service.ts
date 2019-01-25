@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 
 @Injectable({
@@ -6,7 +6,8 @@ import {Observable, of} from 'rxjs';
 })
 export class SubscriptionsService {
 
-  constructor() { }
+  constructor() {
+  }
 
   addSubscription(userId: string, subscriptionId: string): Observable<boolean> {
     return of(true);

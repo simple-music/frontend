@@ -11,7 +11,8 @@ export class UserSubscribersComponent implements OnInit {
 
   subscribersIds: Array<string>;
 
-  constructor(private subscriptionsService: SubscriptionsService) {}
+  constructor(private subscriptionsService: SubscriptionsService) {
+  }
 
   ngOnInit() {
     this.subscriptionsService.getSubscribers(this.userId)

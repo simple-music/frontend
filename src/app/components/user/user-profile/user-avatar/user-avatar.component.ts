@@ -11,7 +11,8 @@ export class UserAvatarComponent implements OnInit {
 
   avatarPath: string;
 
-  constructor(private avatarsService: AvatarsService) {}
+  constructor(private avatarsService: AvatarsService) {
+  }
 
   ngOnInit() {
     this.avatarsService.getAvatar(this.userId)
