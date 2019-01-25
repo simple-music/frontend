@@ -1,5 +1,7 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {SessionInfo} from '../models/session-info';
+import {Credentials} from '../models/credentials';
+import {Observable, of} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +20,14 @@ export class AuthService {
     // this.loadSession();
   }
 
-  login() {
-    // TODO
+  login(credentials: Credentials): Observable<boolean> {
+    this.sessionInfo = {
+      userId: '8cfd8eed-9abe-4a75-a9dc-90b386d746b4',
+      authToken: '8cfd8eed-9abe-4a75-a9dc-90b386d746b4',
+      refreshToken: '8cfd8eed-9abe-4a75-a9dc-90b386d746b4'
+    }; // TODO
     this.authEvent.emit(true);
+    return of(true);
   }
 
   logout() {

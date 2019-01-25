@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {User} from '../models/user';
 import {Observable, of} from 'rxjs';
+import {NewUser} from '../models/new-user';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,12 @@ export class UsersService {
   constructor() {
   }
 
-  getUser(userId): Observable<User> {
+  addUser(user: NewUser): Observable<boolean> {
+    // TODO
+    return of(true);
+  }
+
+  getUser(userId: string): Observable<User> {
     return of({
       id: '1eb9127b-bd40-47c6-aff4-c4f9b2fc8616',
       username: 'user' + Math.random().toString(),
