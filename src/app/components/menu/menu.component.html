@@ -19,7 +19,7 @@
 
 <ng-template #nonAuthorizedBlock>
   <div>
-    <button type="button" class="btn btn-warning"><a href="#"><i class="fas fa-user"></i> Sign In</a></button>&nbsp;
-    <button type="button" class="btn btn-warning"><a href="#"><i class="fas fa-sign-in-alt"></i> Sign Up</a></button>
+    <button type="button" class="btn btn-warning" (click)="onBtnSignInClick()"><i class="fas fa-user"></i> Sign In</button>&nbsp;
+    <button type="button" class="btn btn-warning" (click)="onBtnSignUpClick()"><i class="fas fa-sign-in-alt"></i> Sign Up</button>
   </div>
 </ng-template>

@@ -5,6 +5,8 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from '../components/app.component';
 import {MenuComponent} from '../components/menu/menu.component';
 import {SearchComponent} from '../components/search/search.component';
+import {LoginComponent} from '../components/login/login.component';
+import {RegistrationComponent} from '../components/registration/registration.component';
 import {UserComponent} from '../components/user/user.component';
 import {UserProfileComponent} from '../components/user/user-profile/user-profile.component';
 import {UserAvatarComponent} from '../components/user/user-profile/user-avatar/user-avatar.component';
@@ -19,6 +21,8 @@ import {UserSubscriptionsComponent} from '../components/user/user-subscriptions/
     AppComponent,
     MenuComponent,
     SearchComponent,
+    LoginComponent,
+    RegistrationComponent,
     UserComponent,
     UserProfileComponent,
     UserAvatarComponent,
