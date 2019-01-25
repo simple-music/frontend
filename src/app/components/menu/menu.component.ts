@@ -12,6 +12,8 @@ export class MenuComponent implements OnInit {
 
   constructor(private router: Router,
               private authService: AuthService) {
+    this.authService.authEvent
+      .subscribe(ok => this.userAuthorized = ok);
   }
 
   ngOnInit() {
@@ -36,7 +38,6 @@ export class MenuComponent implements OnInit {
 
   onBtnLogoutClick() {
     this.authService.logout();
-    this.userAuthorized = false;
     this.router.navigate(['/login']);
   }
 }

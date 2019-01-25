@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {SessionInfo} from '../models/session-info';
 
 @Injectable({
@@ -6,6 +6,8 @@ import {SessionInfo} from '../models/session-info';
 })
 export class AuthService {
   sessionInfo: SessionInfo;
+
+  authEvent: EventEmitter<any> = new EventEmitter();
 
   constructor() {
     this.sessionInfo = {
@@ -18,10 +20,12 @@ export class AuthService {
 
   login() {
     // TODO
+    this.authEvent.emit(true);
   }
 
   logout() {
     this.sessionInfo = null;
+    this.authEvent.emit(false);
   }
 
   private saveSession(): void {
