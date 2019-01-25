@@ -1,4 +1,4 @@
-import { SessionInfo } from './session-info';
+import {SessionInfo} from './session-info';
 
 describe('SessionInfo', () => {
   it('should create an instance', () => {
