@@ -75,7 +75,7 @@ export class SubscriptionsService {
             alert(this.apiService.getErrorMessage());
         }
       }).catch(error => {
-        alert(error);
-      });
+      alert(error);
+    });
   }
 }

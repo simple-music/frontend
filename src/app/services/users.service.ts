@@ -54,8 +54,8 @@ export class UsersService {
 
           default:
             alert(this.apiService.getErrorMessage());
-      }
-    }).catch(error => {
+        }
+      }).catch(error => {
       alert(error);
     });
   }
