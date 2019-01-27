@@ -28,16 +28,16 @@ export class SettingsComponent implements OnInit {
 
     this.userId = this.authService.sessionInfo.userId;
 
-    this.usersService.getUser(this.userId)
-      .subscribe(user => {
-        this.userUpdate = {
-          email: user.email,
-          fullName: user.fullName,
-          dateOfBirth: user.dateOfBirth,
-          musicalInstruments: user.musicalInstruments
-        };
-        this.musicalInstruments = user.musicalInstruments.join(',');
-      });
+    this.usersService.getUser(this.userId, user => {
+      this.userUpdate = {
+        email: user.email,
+        fullName: user.fullName,
+        dateOfBirth: user.dateOfBirth,
+        musicalInstruments: user.musicalInstruments
+      };
+    }, error => {
+      alert(error);
+    });
   }
 
   onAvatarChange(event: any): void {

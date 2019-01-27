@@ -22,10 +22,11 @@ export class LoginComponent implements OnInit {
   }
 
   onBtnSubmitClick() {
-    this.authService.login(this.credentials)
-      .subscribe(() => {
-        this.navigateToProfile();
-      });
+    this.authService.login(this.credentials, () => {
+      this.navigateToProfile();
+    }, message => {
+      alert(message);
+    });
   }
 
   private navigateToProfile(): void {

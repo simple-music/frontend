@@ -24,16 +24,18 @@ export class RegistrationComponent implements OnInit {
   }
 
   onBtnSubmitClick() {
-    const user = this.user;
-    this.usersService.addUser(user)
-      .subscribe(() => {
-        this.authService.login({
-          username: user.username,
-          password: user.password
-        }).subscribe(() => {
-          this.navigateToProfile();
-        });
+    this.usersService.addUser(this.user, () => {
+      this.authService.login({
+        username: this.user.username,
+        password: this.user.password
+      }, () => {
+        this.navigateToProfile();
+      }, message => {
+        alert(message);
       });
+    }, message => {
+      alert(message);
+    });
   }
 
   private navigateToProfile(): void {

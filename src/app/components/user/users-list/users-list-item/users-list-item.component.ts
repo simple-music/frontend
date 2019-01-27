@@ -16,7 +16,10 @@ export class UsersListItemComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.usersService.getUser(this.userId)
-      .subscribe(user => this.user = user);
+    this.usersService.getUser(this.userId, user => {
+      this.user = user;
+    }, error => {
+      alert(error);
+    });
   }
 }

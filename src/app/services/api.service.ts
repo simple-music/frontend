@@ -4,10 +4,14 @@ import {Injectable} from '@angular/core';
   providedIn: 'root'
 })
 export class ApiService {
-  private backendURL = 'http://127.0.0.1:8000';
-  private baseURL = this.backendURL + '/api';
+  private backendURL = 'http://127.0.0.1:8080';
+  private apiURL = this.backendURL + '/api';
 
-  getBaseURL(): string {
-    return this.baseURL;
+  getApiURL(): string {
+    return this.apiURL;
+  }
+
+  getErrorMessage(): string {
+    return 'Internal Service Error';
   }
 }
