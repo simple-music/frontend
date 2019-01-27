@@ -13,11 +13,13 @@
         </div>
         <div class="form-group">
           <label for="dateOfBirthInput">Date of birth:</label>
-          <input [(ngModel)]="userUpdate.dateOfBirth" class="form-control" id="dateOfBirthInput" name="dateOfBirth" type="date">
+          <input [(ngModel)]="userUpdate.dateOfBirth" class="form-control" id="dateOfBirthInput" name="dateOfBirth"
+                 type="date">
         </div>
         <div class="form-group">
           <label for="musicalInstrumentsInput">Musical instruments:</label>
-          <input [(ngModel)]="musicalInstruments" class="form-control" id="musicalInstrumentsInput" name="musicalInstruments" type="text">
+          <input [(ngModel)]="musicalInstruments" class="form-control" id="musicalInstrumentsInput"
+                 name="musicalInstruments" type="text">
         </div>
         <button (click)="onBtnSubmitClick()" class="btn btn-primary" type="submit">Submit</button>
       </form>
