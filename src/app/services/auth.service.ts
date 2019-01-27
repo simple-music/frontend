@@ -27,6 +27,7 @@ export class AuthService {
           response.json().then(info => {
             this.sessionInfo = info;
             this.saveSession();
+            this.authEvent.emit(true);
             onSuccess();
           });
           break;
