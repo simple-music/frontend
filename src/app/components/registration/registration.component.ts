@@ -36,7 +36,7 @@ export class RegistrationComponent implements OnInit {
       });
   }
 
-  navigateToProfile(): void {
+  private navigateToProfile(): void {
     this.router.navigate(['/user/' + this.authService.sessionInfo.userId]);
   }
 }
