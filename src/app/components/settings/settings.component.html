@@ -2,6 +2,25 @@
   <div class="row">
     <div class="col-md-3"></div>
     <div>
+      <br/>
+      <app-user-avatar [userId]="userId"></app-user-avatar>
+      <br/>
+      <form>
+        <div class="form-group">
+          <input (change)="onAvatarChange($event)" class="form-control" id="avatarInput" name="avatar" type="file">
+        </div>
+        <button (click)="onBtnSubmitAvatarClick()" class="btn btn-primary" type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<br/><br/><br/>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div>
       <form>
         <div class="form-group">
           <label for="emailInput">Email:</label>
@@ -21,7 +40,7 @@
           <input [(ngModel)]="musicalInstruments" class="form-control" id="musicalInstrumentsInput"
                  name="musicalInstruments" type="text">
         </div>
-        <button (click)="onBtnSubmitClick()" class="btn btn-primary" type="submit">Submit</button>
+        <button (click)="onBtnSubmitUpdateClick()" class="btn btn-primary" type="submit">Submit</button>
       </form>
     </div>
   </div>

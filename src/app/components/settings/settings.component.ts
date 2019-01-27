@@ -10,8 +10,11 @@ import {UserUpdate} from '../../models/user-update';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
+  userId: string;
+
   userUpdate: UserUpdate;
   musicalInstruments: string;
+  avatar: ArrayBuffer;
 
   constructor(private router: Router,
               private authService: AuthService,
@@ -22,8 +25,10 @@ export class SettingsComponent implements OnInit {
     if (!this.authService.sessionInfo) {
       this.navigateToLogin();
     }
-    this.usersService
-      .getUser(this.authService.sessionInfo.userId)
+
+    this.userId = this.authService.sessionInfo.userId;
+
+    this.usersService.getUser(this.userId)
       .subscribe(user => {
         this.userUpdate = {
           email: user.email,
@@ -35,7 +40,23 @@ export class SettingsComponent implements OnInit {
       });
   }
 
-  onBtnSubmitClick(): void {
+  onAvatarChange(event: any): void {
+    const reader = new FileReader();
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      reader.onload = () => {
+        this.avatar = reader.result as ArrayBuffer;
+      };
+      reader.readAsArrayBuffer(file);
+    }
+  }
+
+  onBtnSubmitAvatarClick(): void {
+    console.log(this.avatar);
+    // TODO
+  }
+
+  onBtnSubmitUpdateClick(): void {
     console.log(this.userUpdate);
     // TODO
   }
