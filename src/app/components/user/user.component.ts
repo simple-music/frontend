@@ -1,4 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -6,12 +7,12 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
-  @Input() userId: string;
+  userId: string;
 
-  constructor() {
+  constructor(private route: ActivatedRoute) {
+    this.userId = this.route.snapshot.paramMap.get('id');
   }
 
   ngOnInit() {
   }
-
 }

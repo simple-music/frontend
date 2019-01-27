@@ -54,14 +54,20 @@ export class SettingsComponent implements OnInit {
   onBtnSubmitAvatarClick(): void {
     console.log(this.avatar);
     // TODO
+    this.navigateToLogin();
   }
 
   onBtnSubmitUpdateClick(): void {
     console.log(this.userUpdate);
     // TODO
+    this.navigateToProfile();
   }
 
   private navigateToLogin(): void {
     this.router.navigate(['/login']);
+  }
+
+  private navigateToProfile(): void {
+    this.router.navigate(['/user/' + this.authService.sessionInfo.userId]);
   }
 }

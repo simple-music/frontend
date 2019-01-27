@@ -1,4 +1,6 @@
-<div *ngIf="isSubscribed; then unsubscribeBlock; else subscribeBlock"></div>
+<div *ngIf="userId !== subscriptionId">
+  <div *ngIf="isSubscribed; then unsubscribeBlock; else subscribeBlock"></div>
+</div>
 
 <ng-template #subscribeBlock>
   <button type="button" class="btn btn-danger"><a href="#"><i class="fas fa-bell"></i> Subscribe</a></button>&nbsp;

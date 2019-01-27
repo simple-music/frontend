@@ -17,7 +17,15 @@ export class UsersService {
   }
 
   getUser(userId: string): Observable<User> {
-    return of({
+    return of(this.mockUser());
+  }
+
+  findUser(username: string): Observable<User> {
+    return of(this.mockUser());
+  }
+
+  private mockUser(): User {
+    return {
       id: '1eb9127b-bd40-47c6-aff4-c4f9b2fc8616',
       username: 'user' + Math.random().toString(),
       email: 'user@example.com',
@@ -26,6 +34,6 @@ export class UsersService {
       musicalInstruments: ['guitar', 'drums', 'bass'],
       numSubscribers: 3,
       numSubscriptions: 3
-    });
+    };
   }
 }

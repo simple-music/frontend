@@ -8,6 +8,7 @@ import {AuthService} from '../../../../services/auth.service';
   styleUrls: ['./subscription.component.css']
 })
 export class SubscriptionComponent implements OnInit {
+  userId: string;
   @Input() subscriptionId: string;
 
   isSubscribed = false;
@@ -17,12 +18,13 @@ export class SubscriptionComponent implements OnInit {
   }
 
   ngOnInit() {
-    const userId = this.authService.sessionInfo.userId;
-    if (userId === this.subscriptionId) {
+    this.userId = this.authService.sessionInfo.userId;
+    console.log(this.userId, this.subscriptionId);
+    if (this.userId === this.subscriptionId) {
       return;
     }
     this.subscriptionsService
-      .checkSubscription(userId, this.subscriptionId)
+      .checkSubscription(this.userId, this.subscriptionId)
       .subscribe(ok => this.isSubscribed = ok);
   }
 }
