@@ -17,7 +17,7 @@ import {UsersListComponent} from '../components/user/users-list/users-list.compo
 import {UsersListItemComponent} from '../components/user/users-list/users-list-item/users-list-item.component';
 import {UserSubscribersComponent} from '../components/user/user-subscribers/user-subscribers.component';
 import {UserSubscriptionsComponent} from '../components/user/user-subscriptions/user-subscriptions.component';
-import {SettingsComponent} from '../settings/settings.component';
+import {SettingsComponent} from '../components/settings/settings.component';
 
 @NgModule({
   declarations: [
