@@ -17,6 +17,7 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit() {
     this.usersService.getUser(this.userId, user => {
+      console.log(user);
       this.user = user;
     }, error => {
       alert(error);

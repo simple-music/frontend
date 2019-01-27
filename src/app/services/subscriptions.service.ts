@@ -1,16 +1,40 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
+import {Subscription} from '../models/subscription';
+import {ApiService} from './api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SubscriptionsService {
-
-  constructor() {
+  constructor(private apiService: ApiService) {
   }
 
-  addSubscription(userId: string, subscriptionId: string): Observable<boolean> {
-    return of(true);
+  addSubscription(subscription: Subscription,
+                  onSuccess: any,
+                  onAuthRequired: any,
+                  onError: any): void {
+    const path = '/users/' + subscription.userId +
+      '/subscriptions/' + subscription.subscriptionId;
+
+    fetch(this.apiService.getApiURL() + path, {
+      method: 'POST'
+    }).then(response => {
+      switch (response.status) {
+        case 200:
+          onSuccess();
+          break;
+
+        case 401:
+          onAuthRequired();
+          break;
+
+        default:
+          alert(this.apiService.getErrorMessage());
+      }
+    }).catch(error => {
+      alert(error);
+    });
   }
 
   checkSubscription(userId: string, subscriptionId: string): Observable<boolean> {
@@ -21,19 +45,37 @@ export class SubscriptionsService {
     return of(false);
   }
 
-  getSubscribers(userId: string): Observable<Array<string>> {
-    return of([
-      '7ac8d64f-6d6f-44b7-bba1-f25d01192445',
-      '08ea0be9-3bea-4171-be3e-3e85eb8bf885',
-      'cb44cba6-f524-42fa-9216-f9b3ab03505a'
-    ]);
+  getSubscribers(userId: string, onSuccess: any, onError: any): void {
+    const path = '/users/' + userId + '/subscribers';
+    this.getList(path, onSuccess, onError);
   }
 
-  getSubscriptions(userId: string): Observable<Array<string>> {
-    return of([
-      '7ac8d64f-6d6f-44b7-bba1-f25d01192445',
-      '08ea0be9-3bea-4171-be3e-3e85eb8bf885',
-      'cb44cba6-f524-42fa-9216-f9b3ab03505a'
-    ]);
+  getSubscriptions(userId: string, onSuccess: any, onError: any): void {
+    const path = '/users/' + userId + '/subscriptions';
+    this.getList(path, onSuccess, onError);
+  }
+
+  private getList(path: string, onSuccess: any, onError: any): void {
+    fetch(this.apiService.getApiURL() + path)
+      .then(response => {
+        switch (response.status) {
+          case 200:
+            response.json().then(list => {
+              onSuccess(list);
+            });
+            break;
+
+          case 404:
+            response.json().then(error => {
+              onError(error.message);
+            });
+            break;
+
+          default:
+            alert(this.apiService.getErrorMessage());
+        }
+      }).catch(error => {
+        alert(error);
+      });
   }
 }

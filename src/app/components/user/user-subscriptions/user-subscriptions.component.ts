@@ -15,7 +15,10 @@ export class UserSubscriptionsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.subscriptionsService.getSubscriptions(this.userId)
-      .subscribe(users => this.subscriptionsIds = users);
+    this.subscriptionsService.getSubscriptions(this.userId, list => {
+      this.subscriptionsIds = list;
+    }, () => {
+      this.subscriptionsIds = null;
+    });
   }
 }
