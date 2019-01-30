@@ -10,7 +10,17 @@ import {Router} from '@angular/router';
   styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent implements OnInit {
-  @Input() userId: string;
+  _userId: string;
+
+  @Input()
+  set userId(value: string) {
+    this._userId = value;
+    this.getUser();
+  }
+
+  get userId() {
+    return this._userId;
+  }
 
   user: User = new User();
 
@@ -19,6 +29,9 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  private getUser(): void {
     this.usersService.getUser(this.userId)
       .then(user => this.user = user)
       .catch(error => {

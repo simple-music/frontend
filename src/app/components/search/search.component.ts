@@ -31,6 +31,7 @@ export class SearchComponent implements OnInit {
   }
 
   private navigateToUser(userId: string): void {
+    console.log(userId);
     this.router.navigate(['/user/' + userId]).then();
   }
 
