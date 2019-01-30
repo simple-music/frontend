@@ -41,9 +41,9 @@ export class SettingsComponent implements OnInit {
       })
       .catch(error => {
         if (error instanceof NotFoundError) {
-          console.log(error.message); // TODO
+          this.navigateToNotFound();
         } else {
-          console.log(error.message); // TODO
+          this.navigateToErrorPage();
         }
       });
   }
@@ -77,5 +77,13 @@ export class SettingsComponent implements OnInit {
 
   private navigateToProfile(): void {
     this.router.navigate(['/user/' + this.authService.sessionInfo.userId]).then();
+  }
+
+  private navigateToNotFound(): void {
+    this.router.navigate(['/not-found-error']).then();
+  }
+
+  private navigateToErrorPage(): void {
+    this.router.navigate(['/internal-service-error']).then();
   }
 }

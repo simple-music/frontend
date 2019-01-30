@@ -23,14 +23,22 @@ export class SearchComponent implements OnInit {
       .then(user => this.navigateToUser(user.id))
       .catch(error => {
         if (error instanceof NotFoundError) {
-          console.log(error); // TODO
+          this.navigateToNotFound();
         } else {
-          console.log(error); // TODO
+          this.navigateToErrorPage();
         }
       });
   }
 
   private navigateToUser(userId: string): void {
     this.router.navigate(['/user/' + userId]).then();
+  }
+
+  private navigateToNotFound(): void {
+    this.router.navigate(['/not-found-error']).then();
+  }
+
+  private navigateToErrorPage(): void {
+    this.router.navigate(['/internal-service-error']).then();
   }
 }
