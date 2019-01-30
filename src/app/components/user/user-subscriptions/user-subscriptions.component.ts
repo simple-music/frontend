@@ -7,7 +7,17 @@ import {SubscriptionsService} from '../../../services/subscriptions.service';
   styleUrls: ['./user-subscriptions.component.css']
 })
 export class UserSubscriptionsComponent implements OnInit {
-  @Input() userId: string;
+  _userId: string;
+
+  @Input()
+  set userId(value: string) {
+    this._userId = value;
+    this.getList();
+  }
+
+  get userId() {
+    return this._userId;
+  }
 
   subscriptionsIds: Array<string>;
 
@@ -15,6 +25,9 @@ export class UserSubscriptionsComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  private getList(): void {
     this.subscriptionsService.getSubscriptions(this.userId, list => {
       this.subscriptionsIds = list;
     }, () => {
