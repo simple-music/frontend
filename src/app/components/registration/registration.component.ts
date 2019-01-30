@@ -3,6 +3,10 @@ import {NewUser} from '../../models/new-user';
 import {UsersService} from '../../services/users.service';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
+import {ConflictError} from '../../errors/conflict-error';
+import {NotAuthorizedError} from '../../errors/not-authorized-error';
+import {ValidationService} from '../../services/validation.service';
+import {ValidationError} from '../../errors/validation-error';
 
 @Component({
   selector: 'app-registration',
@@ -12,7 +16,12 @@ import {Router} from '@angular/router';
 export class RegistrationComponent implements OnInit {
   user: NewUser = new NewUser();
 
+  passwordConfirmed: string;
+
+  error: string;
+
   constructor(private router: Router,
+              private validationService: ValidationService,
               private usersService: UsersService,
               private authService: AuthService) {
   }
@@ -24,21 +33,47 @@ export class RegistrationComponent implements OnInit {
   }
 
   onBtnSubmitClick() {
-    /*this.usersService.addUser(this.user, () => {
-      this.authService.login({
-        username: this.user.username,
-        password: this.user.password
-      }, () => {
-        this.navigateToProfile();
-      }, message => {
-        alert(message);
+    try {
+      this.validateForm();
+      this.error = null;
+    } catch (err) {
+      this.error = err.message;
+      return;
+    }
+
+    this.registerAndLogin()
+      .then(() => this.navigateToProfile())
+      .catch(err => {
+        if (err instanceof ConflictError) {
+          this.error = err.message;
+        } else if (err instanceof NotAuthorizedError) {
+          console.log(err); // TODO
+        } else {
+          console.log(err); // TODO
+        }
       });
-    }, message => {
-      alert(message);
-    });*/
+  }
+
+  private async registerAndLogin(): Promise<void> {
+    await this.usersService.addUser(this.user);
+    await this.authService.login({
+      username: this.user.username,
+      password: this.user.password
+    });
+  }
+
+  private validateForm(): void {
+    if (this.user.password !== this.passwordConfirmed) {
+      throw new ValidationError('Password mismatch!');
+    }
+
+    this.validationService.checkUsername(this.user.username);
+    this.validationService.checkPassword(this.user.password);
+    this.validationService.checkEmail(this.user.email);
+    this.validationService.checkFullName(this.user.fullName);
   }
 
   private navigateToProfile(): void {
-    this.router.navigate(['/user/' + this.authService.sessionInfo.userId]);
+    this.router.navigate(['/user/' + this.authService.sessionInfo.userId]).then();
   }
 }

@@ -21,4 +21,18 @@ export class ValidationService {
       throw new ValidationError('Password too short!');
     }
   }
+
+  // noinspection JSMethodCanBeStatic
+  checkEmail(email: string): void {
+    if (!/^.+@.+$/.test(email)) {
+      throw new ValidationError('Wrong email!');
+    }
+  }
+
+  // noinspection JSMethodCanBeStatic
+  checkFullName(fullName: string): void {
+    if (!/^((\w)+ ?)+$/.test(fullName)) {
+      throw new ValidationError('Only letters, digits and spaces are allowed in name!');
+    }
+  }
 }

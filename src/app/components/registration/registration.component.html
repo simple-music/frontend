@@ -13,7 +13,8 @@
         </div>
         <div class="form-group">
           <label for="passwordConfirmationInput">Password confirmation:</label>
-          <input class="form-control" id="passwordConfirmationInput" name="passwordConfirmation" type="password">
+          <input [(ngModel)]="passwordConfirmed" class="form-control" id="passwordConfirmationInput"
+                 name="passwordConfirmation" type="password">
         </div>
         <div class="form-group">
           <label for="emailInput">Email:</label>
@@ -25,6 +26,7 @@
         </div>
         <button (click)="onBtnSubmitClick()" class="btn btn-primary" type="submit">Submit</button>
       </form>
+      <p *ngIf="error != null" class="error-message">{{ error }}</p>
     </div>
   </div>
 </div>

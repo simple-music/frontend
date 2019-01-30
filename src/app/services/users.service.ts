@@ -3,6 +3,8 @@ import {User} from '../models/user';
 import {Observable, of} from 'rxjs';
 import {NewUser} from '../models/new-user';
 import {ApiService} from './api.service';
+import {InternalServerError} from '../errors/internal-server-error';
+import {ConflictError} from '../errors/conflict-error';
 
 @Injectable({
   providedIn: 'root'
@@ -14,28 +16,24 @@ export class UsersService {
     this.apiURL = this.apiService.getApiURL();
   }
 
-  addUser(user: NewUser, onSuccess: any, onError: any): void {
-    fetch(this.apiService.getApiURL() + '/users', {
+  async addUser(user: NewUser): Promise<void> {
+    const path = this.apiService.makePath('/users');
+
+    const response = await fetch(path, {
       method: 'POST',
       body: JSON.stringify(user)
-    }).then(response => {
-      switch (response.status) {
-        case 201:
-          onSuccess();
-          break;
-
-        case 409:
-          response.json().then(obj => {
-            onError(obj.message);
-          });
-          break;
-
-        default:
-          alert(this.apiService.getErrorMessage());
-      }
-    }).catch(error => {
-      alert(error);
     });
+
+    switch (response.status) {
+      case 201:
+        return;
+
+      case 409:
+        throw new ConflictError('User with such username or email is already registered!');
+
+      default:
+        throw new InternalServerError(response);
+    }
   }
 
   getUser(userId: string, onSuccess: any, onError: any) {
