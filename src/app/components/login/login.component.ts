@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
 import {Credentials} from '../../models/credentials';
 import {NotAuthorizedError} from '../../errors/not-authorized-error';
+import {ValidationService} from '../../services/validation.service';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,7 @@ export class LoginComponent implements OnInit {
   error: string;
 
   constructor(private router: Router,
+              private validationService: ValidationService,
               private authService: AuthService) {
   }
 
@@ -25,19 +27,31 @@ export class LoginComponent implements OnInit {
   }
 
   onBtnSubmitClick() {
-    this.error = null;
+    try {
+      this.validateForm();
+      this.error = null;
+    } catch (err) {
+      this.error = err.message;
+      return;
+    }
+
     this.authService.login(this.credentials)
       .then(() => this.navigateToProfile())
       .catch(err => {
         if (err instanceof NotAuthorizedError) {
           this.error = 'Wrong username or password!';
         } else {
-          console.log('Internal error: ', err); // TODO
+          console.log(err); // TODO
         }
       });
   }
 
+  private validateForm(): void {
+    this.validationService.checkUsername(this.credentials.username);
+    this.validationService.checkPassword(this.credentials.password);
+  }
+
   private navigateToProfile(): void {
-    this.router.navigate(['/user/' + this.authService.sessionInfo.userId]);
+    this.router.navigate(['/user/' + this.authService.sessionInfo.userId]).then();
   }
 }
