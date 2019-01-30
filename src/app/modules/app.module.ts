@@ -18,6 +18,8 @@ import {UsersListItemComponent} from '../components/user/users-list/users-list-i
 import {UserSubscribersComponent} from '../components/user/user-subscribers/user-subscribers.component';
 import {UserSubscriptionsComponent} from '../components/user/user-subscriptions/user-subscriptions.component';
 import {SettingsComponent} from '../components/settings/settings.component';
+import {NotFoundErrorComponent} from '../components/errors/not-found-error/not-found-error.component';
+import {InternalServiceErrorComponent} from '../components/errors/internal-service-error/internal-service-error.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import {SettingsComponent} from '../components/settings/settings.component';
     UsersListItemComponent,
     UserSubscribersComponent,
     UserSubscriptionsComponent,
-    SettingsComponent
+    SettingsComponent,
+    NotFoundErrorComponent,
+    InternalServiceErrorComponent,
   ],
   imports: [
     BrowserModule,

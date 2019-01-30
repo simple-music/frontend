@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {User} from '../../../models/user';
 import {UsersService} from '../../../services/users.service';
 import {NotFoundError} from '../../../errors/not-found-error';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
@@ -13,7 +14,8 @@ export class UserProfileComponent implements OnInit {
 
   user: User = new User();
 
-  constructor(private usersService: UsersService) {
+  constructor(private router: Router,
+              private usersService: UsersService) {
   }
 
   ngOnInit() {
@@ -21,10 +23,18 @@ export class UserProfileComponent implements OnInit {
       .then(user => this.user = user)
       .catch(error => {
         if (error instanceof NotFoundError) {
-          console.log(error.message); // TODO
+          this.navigateToNotFound();
         } else {
-          console.log(error.message); // TODO
+          this.navigateToErrorPage();
         }
       });
+  }
+
+  private navigateToNotFound(): void {
+    this.router.navigate(['/not-found-error']).then();
+  }
+
+  private navigateToErrorPage(): void {
+    this.router.navigate(['/internal-service-error']).then();
   }
 }
