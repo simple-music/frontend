@@ -2,47 +2,77 @@ import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {Subscription} from '../models/subscription';
 import {ApiService} from './api.service';
+import {AuthService} from './auth.service';
+import {NotFoundError} from '../errors/not-found-error';
+import {InternalServerError} from '../errors/internal-server-error';
+import {NotAuthorizedError} from '../errors/not-authorized-error';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SubscriptionsService {
-  constructor(private apiService: ApiService) {
+  constructor(private apiService: ApiService,
+              private authService: AuthService) {
   }
 
-  addSubscription(subscription: Subscription,
-                  onSuccess: any,
-                  onAuthRequired: any,
-                  onError: any): void {
-    const path = '/users/' + subscription.userId +
-      '/subscriptions/' + subscription.subscriptionId;
+  async addSubscription(subscription: Subscription, retry: number = 0): Promise<void> {
+    console.log('Ret: ', retry);
 
-    fetch(this.apiService.getApiURL() + path, {
-      method: 'POST'
-    }).then(response => {
-      switch (response.status) {
-        case 200:
-          onSuccess();
-          break;
+    const path = this.makePath(subscription);
 
-        case 401:
-          onAuthRequired();
-          break;
-
-        default:
-          alert(this.apiService.getErrorMessage());
-      }
-    }).catch(error => {
-      alert(error);
+    const response = await fetch(path, {
+      method: 'POST',
+      headers: [this.makeAuthHeader()]
     });
+
+    switch (response.status) {
+      case 200:
+        return;
+
+      case 401:
+        if (retry !== 0) {
+          throw new NotAuthorizedError();
+        }
+        await this.authService.refreshSession();
+        return this.addSubscription(subscription, 1);
+
+      case 404:
+        throw new NotFoundError('User not found!');
+
+      default:
+        throw new InternalServerError(response);
+    }
   }
 
   checkSubscription(userId: string, subscriptionId: string): Observable<boolean> {
     return of(false);
   }
 
-  deleteSubscription(userId: string, subscriptionId: string): Observable<boolean> {
-    return of(false);
+  async deleteSubscription(subscription: Subscription, retry: number = 0): Promise<void> {
+    const path = this.makePath(subscription);
+
+    const response = await fetch(path, {
+      method: 'DELETE',
+      headers: [this.makeAuthHeader()]
+    });
+
+    switch (response.status) {
+      case 200:
+        return;
+
+      case 401:
+        if (retry !== 0) {
+          throw new NotAuthorizedError();
+        }
+        await this.authService.refreshSession();
+        return this.addSubscription(subscription, 1);
+
+      case 404:
+        throw new NotFoundError('User not found!');
+
+      default:
+        throw new InternalServerError(response);
+    }
   }
 
   getSubscribers(userId: string, onSuccess: any, onError: any): void {
@@ -53,6 +83,18 @@ export class SubscriptionsService {
   getSubscriptions(userId: string, onSuccess: any, onError: any): void {
     const path = '/users/' + userId + '/subscriptions';
     this.getList(path, onSuccess, onError);
+  }
+
+  // noinspection JSMethodCanBeStatic
+  private makePath(subscription: Subscription): string {
+    return this.apiService.getApiURL() +
+      '/users/' + subscription.userId +
+      '/subscriptions/' + subscription.subscriptionId;
+  }
+
+  private makeAuthHeader(): string[] {
+    const authToken = this.authService.sessionInfo.authToken;
+    return ['Authorization', 'Bearer ' + authToken];
   }
 
   private getList(path: string, onSuccess: any, onError: any): void {

@@ -3,9 +3,9 @@
 </div>
 
 <ng-template #subscribeBlock>
-  <button type="button" class="btn btn-danger"><a href="#"><i class="fas fa-bell"></i> Subscribe</a></button>&nbsp;
+  <button (click)="onBtnSubscribeClick()" type="button" class="btn btn-danger"><a href="#"><i class="fas fa-bell"></i> Subscribe</a></button>&nbsp;
 </ng-template>
 
 <ng-template #unsubscribeBlock>
-  <button type="button" class="btn btn-warning"><a href="#"><i class="fas fa-bell-slash"></i> Unsubscribe</a></button>&nbsp;
+  <button (click)="onBtnUnsubscribeClick()" type="button" class="btn btn-warning"><a href="#"><i class="fas fa-bell-slash"></i> Unsubscribe</a></button>&nbsp;
 </ng-template>

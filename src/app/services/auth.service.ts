@@ -17,7 +17,8 @@ export class AuthService {
   }
 
   async login(credentials: Credentials): Promise<void> {
-    const path = this.apiService.makePath('/auth/session');
+    const path = this.makePath();
+
     const response = await fetch(path, {
       method: 'POST',
       body: JSON.stringify(credentials)
@@ -27,9 +28,31 @@ export class AuthService {
       case 200:
         this.sessionInfo = await response.json();
         this.saveSession();
-        break;
+        return;
 
-      case 404:
+      case 404: // TODO
+        throw new NotAuthorizedError();
+
+      default:
+        throw new InternalServerError(response);
+    }
+  }
+
+  async refreshSession(): Promise<void> {
+    const path = this.makePath() +
+      '?refreshToken=' + this.sessionInfo.refreshToken;
+
+    const response = await fetch(path, {
+      method: 'PATCH'
+    });
+
+    switch (response.status) {
+      case 200:
+        this.sessionInfo = await response.json();
+        this.saveSession(false);
+        return;
+
+      case 404: case 401: case 403: // TODO
         throw new NotAuthorizedError();
 
       default:
@@ -48,17 +71,23 @@ export class AuthService {
       case 401:
       case 403:
         this.deleteSession();
-        break;
+        return;
 
       default:
         throw new InternalServerError(response);
     }
   }
 
-  private saveSession(): void {
+  private makePath(): string {
+    return this.apiService.makePath('/auth/session');
+  }
+
+  private saveSession(shouldNotify: boolean = true): void {
     window.localStorage.setItem('session',
       JSON.stringify(this.sessionInfo));
-    this.authEvent.emit(true);
+    if (shouldNotify) {
+      this.authEvent.emit(true);
+    }
   }
 
   private loadSession(): void {

@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {SubscriptionsService} from '../../../../services/subscriptions.service';
 import {AuthService} from '../../../../services/auth.service';
+import {Subscription} from '../../../../models/subscription';
 
 @Component({
   selector: 'app-subscription',
@@ -26,5 +27,24 @@ export class SubscriptionComponent implements OnInit {
     this.subscriptionsService
       .checkSubscription(this.userId, this.subscriptionId)
       .subscribe(ok => this.isSubscribed = ok);
+  }
+
+  onBtnSubscribeClick(): void {
+    this.subscriptionsService.addSubscription(this.makeSubscription())
+      .then(() => this.isSubscribed = true)
+      .catch(error => console.log(error));
+  }
+
+  onBtnUnsubscribeClick(): void {
+    this.subscriptionsService.deleteSubscription(this.makeSubscription())
+      .then(() => this.isSubscribed = false)
+      .catch(error => console.log(error));
+  }
+
+  private makeSubscription(): Subscription {
+    return {
+      userId: this.userId,
+      subscriptionId: this.subscriptionId
+    };
   }
 }
