@@ -5,7 +5,7 @@
     </a>
   </div>
   <div class="nav navbar-nav navbar-right">
-    <div *ngIf="userAuthorized; then authorizedBlock; else nonAuthorizedBlock"></div>
+    <div *ngIf="isUserAuthorized; then authorizedBlock; else nonAuthorizedBlock"></div>
   </div>
 </nav>
 

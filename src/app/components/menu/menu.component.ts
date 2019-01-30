@@ -8,36 +8,40 @@ import {Router} from '@angular/router';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
-  userAuthorized = false;
+  isUserAuthorized = false;
 
   constructor(private router: Router,
               private authService: AuthService) {
     this.authService.authEvent
-      .subscribe(ok => this.userAuthorized = ok);
+      .subscribe(ok => this.isUserAuthorized = ok);
   }
 
   ngOnInit() {
-    this.userAuthorized = this.authService.sessionInfo != null;
+    this.isUserAuthorized = this.authService.sessionInfo != null;
   }
 
   onBtnSignInClick() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login']).then();
   }
 
   onBtnSignUpClick() {
-    this.router.navigate(['/registration']);
+    this.router.navigate(['/registration']).then();
   }
 
   onBtnProfileClick() {
-    this.router.navigate(['/user/' + this.authService.sessionInfo.userId]);
+    this.router.navigate(['/user/' + this.authService.sessionInfo.userId]).then();
   }
 
   onBtnSettingsClick() {
-    this.router.navigate(['/settings']);
+    this.router.navigate(['/settings']).then();
   }
 
   onBtnLogoutClick() {
-    this.authService.logout();
-    this.router.navigate(['/login']);
+    this.authService.logout()
+      .catch(err => {
+        console.log(err); // TODO
+      });
+
+    this.router.navigate(['/login']).then();
   }
 }
