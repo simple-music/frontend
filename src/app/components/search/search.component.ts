@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {UsersService} from '../../services/users.service';
+import {NotFoundError} from '../../errors/not-found-error';
 
 @Component({
   selector: 'app-search',
@@ -19,6 +20,17 @@ export class SearchComponent implements OnInit {
 
   onBtnClick(): void {
     this.usersService.findUser(this.username)
-      .subscribe(user => this.router.navigate(['/user/' + user.id]));
+      .then(user => this.navigateToUser(user.id))
+      .catch(error => {
+        if (error instanceof NotFoundError) {
+          console.log(error); // TODO
+        } else {
+          console.log(error); // TODO
+        }
+      });
+  }
+
+  private navigateToUser(userId: string): void {
+    this.router.navigate(['/user/' + userId]).then();
   }
 }

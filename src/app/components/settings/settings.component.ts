@@ -3,6 +3,7 @@ import {AuthService} from '../../services/auth.service';
 import {UsersService} from '../../services/users.service';
 import {Router} from '@angular/router';
 import {UserUpdate} from '../../models/user-update';
+import {NotFoundError} from '../../errors/not-found-error';
 
 @Component({
   selector: 'app-settings',
@@ -28,16 +29,23 @@ export class SettingsComponent implements OnInit {
 
     this.userId = this.authService.sessionInfo.userId;
 
-    this.usersService.getUser(this.userId, user => {
-      this.userUpdate = {
-        email: user.email,
-        fullName: user.fullName,
-        dateOfBirth: user.dateOfBirth,
-        musicalInstruments: user.musicalInstruments
-      };
-    }, error => {
-      alert(error);
-    });
+    this.usersService.getUser(this.userId)
+      .then(user => {
+        this.userUpdate = {
+          email: user.email,
+          fullName: user.fullName,
+          dateOfBirth: user.dateOfBirth,
+          musicalInstruments: null,
+        };
+        this.musicalInstruments = user.musicalInstruments.join(',');
+      })
+      .catch(error => {
+        if (error instanceof NotFoundError) {
+          console.log(error.message); // TODO
+        } else {
+          console.log(error.message); // TODO
+        }
+      });
   }
 
   onAvatarChange(event: any): void {
@@ -64,10 +72,10 @@ export class SettingsComponent implements OnInit {
   }
 
   private navigateToLogin(): void {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login']).then();
   }
 
   private navigateToProfile(): void {
-    this.router.navigate(['/user/' + this.authService.sessionInfo.userId]);
+    this.router.navigate(['/user/' + this.authService.sessionInfo.userId]).then();
   }
 }
