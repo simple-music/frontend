@@ -52,7 +52,9 @@ export class AuthService {
         this.saveSession(false);
         return;
 
-      case 404: case 401: case 403: // TODO
+      case 404:
+      case 401:
+      case 403: // TODO
         throw new NotAuthorizedError();
 
       default:
