@@ -17,31 +17,25 @@ export class AuthService {
     this.apiURL = this.apiService.getApiURL();
   }
 
-  login(credentials: Credentials, onSuccess: any, onError: any): void {
-    fetch(this.apiURL + '/auth/session', {
-      method: 'POST',
-      body: JSON.stringify(credentials)
-    }).then(response => {
-      switch (response.status) {
-        case 200:
-          response.json().then(info => {
-            this.sessionInfo = info;
-            this.saveSession();
-            this.authEvent.emit(true);
-            onSuccess();
-          });
-          break;
+  async login(credentials: Credentials): Promise<void> {
+    const path = this.apiService.makePath('/auth/session');
+    const response = await fetch(path, {
+        method: 'POST',
+        body: JSON.stringify(credentials)
+      });
 
-        case 404:
-          onError();
-          break;
+    switch (response.status) {
+      case 200:
+        this.sessionInfo = await response.json();
+        this.saveSession();
+        break;
 
-        default:
-          alert('internal service error');
-      }
-    }).catch(error => {
-      alert(error);
-    });
+      case 404:
+        throw new Error('not authorized');
+
+      default:
+        throw new Error('internal server error');
+    }
   }
 
   logout(): void {

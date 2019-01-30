@@ -24,7 +24,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   onBtnSubmitClick() {
-    this.usersService.addUser(this.user, () => {
+    /*this.usersService.addUser(this.user, () => {
       this.authService.login({
         username: this.user.username,
         password: this.user.password
@@ -35,7 +35,7 @@ export class RegistrationComponent implements OnInit {
       });
     }, message => {
       alert(message);
-    });
+    });*/
   }
 
   private navigateToProfile(): void {

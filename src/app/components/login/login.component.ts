@@ -22,11 +22,9 @@ export class LoginComponent implements OnInit {
   }
 
   onBtnSubmitClick() {
-    this.authService.login(this.credentials, () => {
-      this.navigateToProfile();
-    }, message => {
-      alert(message);
-    });
+    this.authService.login(this.credentials)
+      .then(() => this.navigateToProfile())
+      .catch(err => console.log(err));
   }
 
   private navigateToProfile(): void {

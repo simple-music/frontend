@@ -11,7 +11,11 @@ export class ApiService {
     return this.apiURL;
   }
 
+  makePath(path: string): string {
+    return this.apiURL + path;
+  }
+
   getErrorMessage(): string {
-    return 'Internal Service Error';
+    return 'internal server error';
   }
 }
