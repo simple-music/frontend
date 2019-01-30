@@ -10,22 +10,22 @@ import {Router} from '@angular/router';
   styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent implements OnInit {
-  _userId: string;
+  user: User = new User();
 
-  @Input()
-  set userId(value: string) {
-    this._userId = value;
-    this.getUser();
+  constructor(private router: Router,
+              private usersService: UsersService) {
   }
+
+  _userId: string;
 
   get userId() {
     return this._userId;
   }
 
-  user: User = new User();
-
-  constructor(private router: Router,
-              private usersService: UsersService) {
+  @Input()
+  set userId(value: string) {
+    this._userId = value;
+    this.getUser();
   }
 
   ngOnInit() {

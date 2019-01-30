@@ -1,4 +1,4 @@
-import { NotFoundError } from './not-found-error';
+import {NotFoundError} from './not-found-error';
 
 describe('NotFoundError', () => {
   it('should create an instance', () => {

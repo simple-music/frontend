@@ -1,4 +1,4 @@
-import { InternalServerError } from './internal-server-error';
+import {InternalServerError} from './internal-server-error';
 
 describe('InternalServerError', () => {
   it('should create an instance', () => {

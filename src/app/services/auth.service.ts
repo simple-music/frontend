@@ -19,9 +19,9 @@ export class AuthService {
   async login(credentials: Credentials): Promise<void> {
     const path = this.apiService.makePath('/auth/session');
     const response = await fetch(path, {
-        method: 'POST',
-        body: JSON.stringify(credentials)
-      });
+      method: 'POST',
+      body: JSON.stringify(credentials)
+    });
 
     switch (response.status) {
       case 200:
@@ -44,7 +44,9 @@ export class AuthService {
     });
 
     switch (response.status) {
-      case 200: case 401: case 403:
+      case 200:
+      case 401:
+      case 403:
         this.deleteSession();
         break;
 

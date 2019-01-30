@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { NotFoundErrorComponent } from './not-found-error.component';
+import {NotFoundErrorComponent} from './not-found-error.component';
 
 describe('NotFoundErrorComponent', () => {
   let component: NotFoundErrorComponent;
@@ -8,9 +8,9 @@ describe('NotFoundErrorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NotFoundErrorComponent ]
+      declarations: [NotFoundErrorComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
