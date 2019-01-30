@@ -1,3 +1,7 @@
 * {
   font-family: 'Concert One', cursive;
 }
+
+.error-message {
+  color: red;
+}

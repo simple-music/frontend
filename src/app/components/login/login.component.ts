@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
 import {Credentials} from '../../models/credentials';
+import {NotAuthorizedError} from '../../errors/not-authorized-error';
 
 @Component({
   selector: 'app-login',
@@ -10,6 +11,8 @@ import {Credentials} from '../../models/credentials';
 })
 export class LoginComponent implements OnInit {
   credentials: Credentials = new Credentials();
+
+  error: string;
 
   constructor(private router: Router,
               private authService: AuthService) {
@@ -22,9 +25,16 @@ export class LoginComponent implements OnInit {
   }
 
   onBtnSubmitClick() {
+    this.error = null;
     this.authService.login(this.credentials)
       .then(() => this.navigateToProfile())
-      .catch(err => console.log(err));
+      .catch(err => {
+        if (err instanceof NotAuthorizedError) {
+          this.error = 'Wrong username or password!';
+        } else {
+          console.log('Internal error: ', err); // TODO
+        }
+      });
   }
 
   private navigateToProfile(): void {

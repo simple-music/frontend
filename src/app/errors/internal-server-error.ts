@@ -4,5 +4,6 @@ export class InternalServerError extends Error {
   constructor(response: Response) {
     super('Internal Server Error');
     this.response = response;
+    Object.setPrototypeOf(this, InternalServerError.prototype);
   }
 }
