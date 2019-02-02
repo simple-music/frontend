@@ -98,9 +98,8 @@ export class SubscriptionsService {
 
   // noinspection JSMethodCanBeStatic
   private makePath(subscription: Subscription): string {
-    return this.apiService.getApiURL() +
-      '/users/' + subscription.userId +
-      '/subscriptions/' + subscription.subscriptionId;
+    return this.apiService.makePath('/users/' + subscription.userId +
+      '/subscriptions/' + subscription.subscriptionId);
   }
 
   private makeAuthHeader(): string[] {

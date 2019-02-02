@@ -46,12 +46,17 @@ export class SubscriptionComponent implements OnInit {
   }
 
   private checkSubscription(): void {
-    this._userId = this.authService.sessionInfo.userId;
+    if (!this.authService.sessionInfo) {
+      this.canSubscribe = false;
+      return;
+    }
 
+    this._userId = this.authService.sessionInfo.userId;
     if (this._userId === this.subscriptionId) {
       this.canSubscribe = false;
       return;
     }
+
     this.subscriptionsService.checkSubscription(this.makeSubscription())
       .then(() => {
         this.isSubscribed = true;
