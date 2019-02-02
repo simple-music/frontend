@@ -7,15 +7,20 @@ import {AvatarsService} from '../../../../services/avatars.service';
   styleUrls: ['./user-avatar.component.css']
 })
 export class UserAvatarComponent implements OnInit {
-  @Input() userId: string;
-
-  avatarPath: string;
+  private avatarPath: string;
 
   constructor(private avatarsService: AvatarsService) {
   }
 
-  ngOnInit() {
-    this.avatarsService.getAvatar(this.userId)
-      .subscribe(path => this.avatarPath = path);
+  @Input()
+  set userId(value: string) {
+    this.avatarPath = this.avatarsService.getAvatarPath(value);
+  }
+
+  ngOnInit(): void {
+  }
+
+  onImgNotLoaded(): void {
+    this.avatarPath = this.avatarsService.getDefaultAvatarPath();
   }
 }

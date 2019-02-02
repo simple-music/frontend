@@ -95,8 +95,15 @@ export class AuthService {
   private loadSession(): void {
     const info = window.localStorage.getItem('session');
     if (info) {
-      this.sessionInfo = JSON.parse(info);
-      this.authEvent.emit(true);
+      const sessionInfo = JSON.parse(info);
+      this.refreshSession()
+        .then(() => {
+          this.sessionInfo = sessionInfo;
+          this.authEvent.emit(true);
+        })
+        .catch(() => {
+          this.deleteSession();
+        });
     } else {
       this.sessionInfo = null;
     }

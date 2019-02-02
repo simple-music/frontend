@@ -1,15 +1,19 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
+import {ApiService} from './api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AvatarsService {
-
-  constructor() {
+  constructor(private apiService: ApiService) {
   }
 
-  getAvatar(userId: string): Observable<string> {
-    return of('https://via.placeholder.com/150');
+  public getAvatarPath(userId: string): string {
+    return this.apiService.makePath('/users/' + userId + '/avatar');
+  }
+
+  public getDefaultAvatarPath(): string {
+    return this.getAvatarPath('default');
   }
 }

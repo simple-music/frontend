@@ -1,3 +1,3 @@
 <div>
-  <img [src]="avatarPath" alt="avatar" class="avatar-image">
+  <img [src]="avatarPath" (error)="onImgNotLoaded()" alt="avatar" class="avatar-image">
 </div>
