@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {ApiService} from './api.service';
-import {NotFoundError} from '../errors/not-found-error';
 import {InternalServerError} from '../errors/internal-server-error';
 import {AuthService} from './auth.service';
 import {NotAuthorizedError} from '../errors/not-authorized-error';
