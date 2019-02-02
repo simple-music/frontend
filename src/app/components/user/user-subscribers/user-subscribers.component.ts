@@ -8,6 +8,7 @@ import {SubscriptionsService} from '../../../services/subscriptions.service';
 })
 export class UserSubscribersComponent implements OnInit {
   subscribers: Array<string>;
+  subscribersPageIndex: number;
   showSubscribers: boolean;
 
   constructor(private subscriptionsService: SubscriptionsService) {
@@ -22,17 +23,20 @@ export class UserSubscribersComponent implements OnInit {
   @Input()
   set userId(value: string) {
     this._userId = value;
+    this.subscribersPageIndex = 0;
     this.getList();
   }
 
   ngOnInit() {
   }
 
-  private getList(pageIndex: number = 0): void {
-    this.subscriptionsService.getSubscribers(this._userId, pageIndex)
+  private getList(): void {
+    this.subscriptionsService
+      .getSubscribers(this._userId, this.subscribersPageIndex)
       .then(page => {
         if (page.empty) {
           if (page.totalPages !== 0) {
+            this.subscribersPageIndex = 0;
             this.getList();
           } else {
             this.showSubscribers = false;
