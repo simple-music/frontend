@@ -38,9 +38,9 @@ export class AuthService {
     }
   }
 
-  async refreshSession(): Promise<void> {
-    const path = this.makePath() +
-      '?refreshToken=' + this.sessionInfo.refreshToken;
+  async refreshSession(refreshToken: string =
+                         this.sessionInfo.refreshToken): Promise<void> {
+    const path = this.makePath() + '?refreshToken=' + refreshToken;
 
     const response = await fetch(path, {
       method: 'PATCH'
@@ -96,7 +96,7 @@ export class AuthService {
     const info = window.localStorage.getItem('session');
     if (info) {
       const sessionInfo = JSON.parse(info);
-      this.refreshSession()
+      this.refreshSession(sessionInfo.refreshToken)
         .then(() => {
           this.sessionInfo = sessionInfo;
           this.authEvent.emit(true);
@@ -110,6 +110,7 @@ export class AuthService {
   }
 
   private deleteSession(): void {
+    window.localStorage.removeItem('session');
     this.sessionInfo = null;
     this.authEvent.emit(false);
   }

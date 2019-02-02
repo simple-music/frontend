@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
-import {isUndefined} from 'util';
+
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-menu',
@@ -17,8 +17,10 @@ export class MenuComponent implements OnInit {
       .subscribe(ok => {
         this.isUserAuthorized = ok;
         if (ok) {
+          console.log('ok');
           this.navigateToProfile();
         } else {
+          console.log('!ok');
           this.navigateToLogin();
         }
       });
@@ -49,34 +51,45 @@ export class MenuComponent implements OnInit {
   }
 
   private navigateToProfile(): void {
-    const userId = this.authService.sessionInfo.userId;
-    if (isUndefined(userId)) {
+    if (!this.authService.sessionInfo) {
       this.navigateToLogin();
     }
+    const userId = this.authService.sessionInfo.userId;
     this.router.navigate(['/user/' + userId]).then()
       .catch(error => console.log(error));
   }
 
   private navigateToSettings(): void {
+    if (!this.authService.sessionInfo) {
+      this.navigateToLogin();
+    }
     this.router.navigate(['/settings']).then()
       .catch(error => console.log(error));
   }
 
   private navigateToLogin(): void {
+    if (this.authService.sessionInfo) {
+      this.navigateToProfile();
+    }
     this.router.navigate(['/login']).then()
       .catch(error => console.log(error));
   }
 
   private navigateToRegistration(): void {
+    if (this.authService.sessionInfo) {
+      this.navigateToProfile();
+    }
     this.router.navigate(['/registration']).then()
       .catch(error => console.log(error));
   }
 
   private logout(): void {
-    this.authService.logout()
-      .catch(err => {
-        console.log(err);
-      });
-    this.navigateToLogin();
+    if (this.authService.sessionInfo) {
+      this.authService.logout()
+        .catch(err => {
+          console.log(err);
+        });
+      this.navigateToLogin();
+    }
   }
 }
