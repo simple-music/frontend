@@ -10,15 +10,15 @@ import {NotFoundError} from '../../../../errors/not-found-error';
   styleUrls: ['./subscription.component.css']
 })
 export class SubscriptionComponent implements OnInit {
-  private _userId: string;
-  private _subscriptionId: string;
-
   isSubscribed = false;
   canSubscribe = false;
+  private _userId: string;
 
   constructor(private authService: AuthService,
               private subscriptionsService: SubscriptionsService) {
   }
+
+  private _subscriptionId: string;
 
   get subscriptionId() {
     return this._subscriptionId;

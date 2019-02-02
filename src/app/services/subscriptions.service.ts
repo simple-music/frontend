@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
 import {Subscription} from '../models/subscription';
 import {ApiService} from './api.service';
 import {AuthService} from './auth.service';
