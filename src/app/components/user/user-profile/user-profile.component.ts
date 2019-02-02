@@ -1,8 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+
 import {User} from '../../../models/user';
 import {UsersService} from '../../../services/users.service';
 import {NotFoundError} from '../../../errors/not-found-error';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',

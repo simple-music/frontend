@@ -17,10 +17,8 @@ export class MenuComponent implements OnInit {
       .subscribe(ok => {
         this.isUserAuthorized = ok;
         if (ok) {
-          console.log('ok');
           this.navigateToProfile();
         } else {
-          console.log('!ok');
           this.navigateToLogin();
         }
       });
