@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+
 import {Subscription} from '../models/subscription';
 import {ApiService} from './api.service';
 import {AuthService} from './auth.service';
@@ -14,9 +15,7 @@ export class SubscriptionsService {
               private authService: AuthService) {
   }
 
-  async addSubscription(subscription: Subscription, retry: number = 0): Promise<void> {
-    console.log('Ret: ', retry);
-
+  public async addSubscription(subscription: Subscription, retry: number = 0): Promise<void> {
     const path = this.makePath(subscription);
 
     const response = await fetch(path, {
@@ -43,8 +42,8 @@ export class SubscriptionsService {
     }
   }
 
-  async checkSubscription(subsciption: Subscription): Promise<void> {
-    const response = await fetch(this.makePath(subsciption));
+  public async checkSubscription(subscription: Subscription): Promise<void> {
+    const response = await fetch(this.makePath(subscription));
 
     switch (response.status) {
       case 200:
@@ -58,7 +57,7 @@ export class SubscriptionsService {
     }
   }
 
-  async deleteSubscription(subscription: Subscription, retry: number = 0): Promise<void> {
+  public async deleteSubscription(subscription: Subscription, retry: number = 0): Promise<void> {
     const path = this.makePath(subscription);
 
     const response = await fetch(path, {
@@ -85,14 +84,16 @@ export class SubscriptionsService {
     }
   }
 
-  getSubscribers(userId: string, onSuccess: any, onError: any): void {
-    const path = '/users/' + userId + '/subscribers';
-    this.getList(path, onSuccess, onError);
+  public async getSubscribers(userId: string, page: number): Promise<any> {
+    const path = '/users/' + userId +
+      '/subscribers?page=' + page.toString();
+    return this.getList(path);
   }
 
-  getSubscriptions(userId: string, onSuccess: any, onError: any): void {
-    const path = '/users/' + userId + '/subscriptions';
-    this.getList(path, onSuccess, onError);
+  public async getSubscriptions(userId: string, page: number): Promise<any> {
+    const path = '/users/' + userId +
+      '/subscriptions?page=' + page.toString();
+    return this.getList(path);
   }
 
   // noinspection JSMethodCanBeStatic
@@ -107,27 +108,15 @@ export class SubscriptionsService {
     return ['Authorization', 'Bearer ' + authToken];
   }
 
-  private getList(path: string, onSuccess: any, onError: any): void {
-    fetch(this.apiService.getApiURL() + path)
-      .then(response => {
-        switch (response.status) {
-          case 200:
-            response.json().then(list => {
-              onSuccess(list);
-            });
-            break;
+  private async getList(path: string): Promise<any> {
+    const response = await fetch(this.apiService.makePath(path));
 
-          case 404:
-            response.json().then(error => {
-              onError(error.message);
-            });
-            break;
+    switch (response.status) {
+      case 200:
+        return await response.json();
 
-          default:
-            alert(this.apiService.getErrorMessage());
-        }
-      }).catch(error => {
-      alert(error);
-    });
+      default:
+        throw new InternalServerError(response);
+    }
   }
 }

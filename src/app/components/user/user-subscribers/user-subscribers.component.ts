@@ -7,7 +7,8 @@ import {SubscriptionsService} from '../../../services/subscriptions.service';
   styleUrls: ['./user-subscribers.component.css']
 })
 export class UserSubscribersComponent implements OnInit {
-  subscribersIds: Array<string>;
+  subscribers: Array<string>;
+  showSubscribers: boolean;
 
   constructor(private subscriptionsService: SubscriptionsService) {
   }
@@ -27,11 +28,22 @@ export class UserSubscribersComponent implements OnInit {
   ngOnInit() {
   }
 
-  private getList(): void {
-    this.subscriptionsService.getSubscribers(this.userId, list => {
-      this.subscribersIds = list;
-    }, () => {
-      this.subscribersIds = null;
-    });
+  private getList(pageIndex: number = 0): void {
+    this.subscriptionsService.getSubscribers(this._userId, pageIndex)
+      .then(page => {
+        if (page.empty) {
+          if (page.totalPages !== 0) {
+            this.getList();
+          } else {
+            this.showSubscribers = false;
+          }
+        } else {
+          this.subscribers = page.content;
+          this.showSubscribers = true;
+        }
+      })
+      .catch(() => {
+        this.showSubscribers = false;
+      });
   }
 }

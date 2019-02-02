@@ -1,4 +1,4 @@
-<div *ngIf="subscriptionsIds">
+<div *ngIf="showSubscriptions">
   <h4>Subscriptions:</h4>
-  <app-users-list [usersIds]="subscriptionsIds"></app-users-list>
+  <app-users-list [users]="subscriptions"></app-users-list>
 </div>

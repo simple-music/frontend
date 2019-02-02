@@ -12,19 +12,19 @@ export class UsersListItemComponent implements OnInit {
   @Input() userId: string;
 
   user: User;
+  showUser: boolean;
 
   constructor(private usersService: UsersService) {
   }
 
   ngOnInit() {
     this.usersService.getUser(this.userId)
-      .then(user => this.user = user)
-      .catch(error => {
-        if (error instanceof NotFoundError) {
-          console.log(error.message); // TODO
-        } else {
-          console.log(error.message); // TODO
-        }
+      .then(user => {
+        this.user = user;
+        this.showUser = true;
+      })
+      .catch(() => {
+        this.showUser = false;
       });
   }
 }
