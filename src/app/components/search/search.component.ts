@@ -31,15 +31,17 @@ export class SearchComponent implements OnInit {
   }
 
   private navigateToUser(userId: string): void {
-    console.log(userId);
-    this.router.navigate(['/user/' + userId]).then();
+    this.router.navigate(['/user/' + userId]).then()
+      .catch(error => console.log(error));
   }
 
   private navigateToNotFound(): void {
-    this.router.navigate(['/not-found-error']).then();
+    this.router.navigate(['/not-found-error']).then()
+      .catch(error => console.log(error));
   }
 
   private navigateToErrorPage(): void {
-    this.router.navigate(['/internal-service-error']).then();
+    this.router.navigate(['/internal-service-error']).then()
+      .catch(error => console.log(error));
   }
 }

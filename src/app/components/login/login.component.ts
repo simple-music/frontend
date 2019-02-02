@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
         if (err instanceof NotAuthorizedError) {
           this.error = 'Wrong username or password!';
         } else {
-          console.log(err); // TODO
+          this.navigateToErrorPage();
         }
       });
   }
@@ -53,5 +53,9 @@ export class LoginComponent implements OnInit {
 
   private navigateToProfile(): void {
     this.router.navigate(['/user/' + this.authService.sessionInfo.userId]).then();
+  }
+
+  private navigateToErrorPage(): void {
+    this.router.navigate(['/internal-service-error']).then();
   }
 }

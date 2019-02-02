@@ -47,7 +47,7 @@ export class SubscriptionComponent implements OnInit {
 
   private checkSubscription(): void {
     this._userId = this.authService.sessionInfo.userId;
-    console.log(this._userId, this.subscriptionId);
+
     if (this._userId === this.subscriptionId) {
       this.canSubscribe = false;
       return;

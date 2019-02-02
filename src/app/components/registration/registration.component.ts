@@ -47,9 +47,9 @@ export class RegistrationComponent implements OnInit {
         if (err instanceof ConflictError) {
           this.error = err.message;
         } else if (err instanceof NotAuthorizedError) {
-          console.log(err); // TODO
+          this.navigateToErrorPage();
         } else {
-          console.log(err); // TODO
+          this.navigateToErrorPage();
         }
       });
   }
@@ -75,5 +75,9 @@ export class RegistrationComponent implements OnInit {
 
   private navigateToProfile(): void {
     this.router.navigate(['/user/' + this.authService.sessionInfo.userId]).then();
+  }
+
+  private navigateToErrorPage(): void {
+    this.router.navigate(['/internal-service-error']).then();
   }
 }
