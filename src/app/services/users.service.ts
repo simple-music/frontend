@@ -5,12 +5,15 @@ import {ApiService} from './api.service';
 import {InternalServerError} from '../errors/internal-server-error';
 import {ConflictError} from '../errors/conflict-error';
 import {NotFoundError} from '../errors/not-found-error';
+import {UserUpdate} from '../models/user-update';
+import {AuthService} from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
-  constructor(private apiService: ApiService) {
+  constructor(private apiService: ApiService,
+              private authService: AuthService) {
   }
 
   public async addUser(user: NewUser): Promise<void> {
@@ -34,15 +37,34 @@ export class UsersService {
   }
 
   public async getUser(userId: string): Promise<User> {
-    const path = this.apiService
-      .makePath('/users/' + userId);
+    const path = this.apiService.makePath('/users/' + userId);
     return this.getInfo(path);
   }
 
   public async findUser(username: string): Promise<User> {
-    const path = this.apiService
-      .makePath('/users?username=' + username);
+    const path = this.apiService.makePath('/users?username=' + username);
     return this.getInfo(path);
+  }
+
+  public async updateUser(userId: string, userUpdate: UserUpdate): Promise<void> {
+    const path = this.apiService.makePath('/users/' + userId);
+
+    const response = await fetch(path, {
+      method: 'PATCH',
+      body: JSON.stringify(userUpdate),
+      headers: [this.makeAuthHeader()]
+    });
+
+    switch (response.status) {
+      case 200:
+        return;
+
+      case 409:
+        throw new ConflictError('Email is already used by someone!');
+
+      default:
+        throw new InternalServerError(response);
+    }
   }
 
   // noinspection JSMethodCanBeStatic
@@ -59,5 +81,10 @@ export class UsersService {
       default:
         throw new InternalServerError(response);
     }
+  }
+
+  private makeAuthHeader(): string[] {
+    const authToken = this.authService.sessionInfo.authToken;
+    return ['Authorization', 'Bearer ' + authToken];
   }
 }

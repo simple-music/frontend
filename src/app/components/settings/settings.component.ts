@@ -6,6 +6,8 @@ import {UsersService} from '../../services/users.service';
 import {UserUpdate} from '../../models/user-update';
 import {NotFoundError} from '../../errors/not-found-error';
 import {AvatarsService} from '../../services/avatars.service';
+import {ValidationService} from '../../services/validation.service';
+import {ConflictError} from '../../errors/conflict-error';
 
 @Component({
   selector: 'app-settings',
@@ -19,10 +21,13 @@ export class SettingsComponent implements OnInit {
   musicalInstruments: string;
   avatar: ArrayBuffer;
 
+  error: string;
+
   constructor(private router: Router,
               private authService: AuthService,
               private usersService: UsersService,
-              private avatarsService: AvatarsService) {
+              private avatarsService: AvatarsService,
+              private validationService: ValidationService) {
   }
 
   ngOnInit() {
@@ -35,7 +40,6 @@ export class SettingsComponent implements OnInit {
 
     this.usersService.getUser(this.userId)
       .then(user => {
-        console.log(user);
         this.userUpdate = {
           email: user.email,
           fullName: user.fullName,
@@ -75,9 +79,29 @@ export class SettingsComponent implements OnInit {
   }
 
   onBtnSubmitUpdateClick(): void {
-    console.log(this.userUpdate);
-    // TODO
-    this.navigateToProfile();
+    this.userUpdate.musicalInstruments = this.musicalInstruments.split(',');
+    try {
+      this.validateUpdates();
+      this.error = '';
+    } catch (err) {
+      this.error = err.message;
+      return;
+    }
+
+    this.usersService.updateUser(this.userId, this.userUpdate)
+      .then(() => this.navigateToProfile())
+      .catch(err => {
+        if (err instanceof ConflictError) {
+          this.error = err.message;
+        } else {
+          this.navigateToErrorPage();
+        }
+      });
+  }
+
+  private validateUpdates(): void {
+    this.validationService.checkEmail(this.userUpdate.email);
+    this.validationService.checkFullName(this.userUpdate.fullName);
   }
 
   private navigateToLogin(): void {
