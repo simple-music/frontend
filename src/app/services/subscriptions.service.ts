@@ -44,8 +44,19 @@ export class SubscriptionsService {
     }
   }
 
-  checkSubscription(userId: string, subscriptionId: string): Observable<boolean> {
-    return of(false);
+  async checkSubscription(subsciption: Subscription): Promise<void> {
+    const response = await fetch(this.makePath(subsciption));
+
+    switch (response.status) {
+      case 200:
+        return;
+
+      case 404:
+        throw new NotFoundError('subscription not found!');
+
+      default:
+        throw new InternalServerError(response);
+    }
   }
 
   async deleteSubscription(subscription: Subscription, retry: number = 0): Promise<void> {

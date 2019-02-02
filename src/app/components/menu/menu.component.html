@@ -11,21 +11,25 @@
 
 <ng-template #authorizedBlock>
   <div>
-    <button type="button" class="btn btn-warning" (click)="onBtnProfileClick()"><i class="fas fa-user"></i> Profile
+    <button type="button" class="btn btn-warning" (click)="onBtnProfileClick()">
+      <i class="fas fa-user"></i> Profile
     </button>&nbsp;
-    <button type="button" class="btn btn-warning" (click)="onBtnSettingsClick()"><i class="fas fa-cog"></i> Settings
+    <button type="button" class="btn btn-warning" (click)="onBtnSettingsClick()">
+      <i class="fas fa-cog"></i> Settings
     </button>&nbsp;
-    <button type="button" class="btn btn-warning" (click)="onBtnLogoutClick()"><i class="fas fa-door-open"></i> Sign Out
+    <button type="button" class="btn btn-warning" (click)="onBtnLogoutClick()">
+      <i class="fas fa-door-open"></i> Sign Out
     </button>
   </div>
 </ng-template>
 
 <ng-template #nonAuthorizedBlock>
   <div>
-    <button type="button" class="btn btn-warning" (click)="onBtnSignInClick()"><i class="fas fa-user"></i> Sign In
+    <button type="button" class="btn btn-warning" (click)="onBtnSignInClick()">
+      <i class="fas fa-user"></i> Sign In
     </button>&nbsp;
-    <button type="button" class="btn btn-warning" (click)="onBtnSignUpClick()"><i class="fas fa-sign-in-alt"></i> Sign
-      Up
+    <button type="button" class="btn btn-warning" (click)="onBtnSignUpClick()">
+      <i class="fas fa-sign-in-alt"></i> Sign Up
     </button>
   </div>
 </ng-template>

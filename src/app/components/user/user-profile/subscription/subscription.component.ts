@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {SubscriptionsService} from '../../../../services/subscriptions.service';
 import {AuthService} from '../../../../services/auth.service';
 import {Subscription} from '../../../../models/subscription';
+import {NotFoundError} from '../../../../errors/not-found-error';
 
 @Component({
   selector: 'app-subscription',
@@ -9,24 +10,27 @@ import {Subscription} from '../../../../models/subscription';
   styleUrls: ['./subscription.component.css']
 })
 export class SubscriptionComponent implements OnInit {
-  userId: string;
-  @Input() subscriptionId: string;
+  private _userId: string;
+  private _subscriptionId: string;
 
   isSubscribed = false;
+  canSubscribe = false;
 
   constructor(private authService: AuthService,
               private subscriptionsService: SubscriptionsService) {
   }
 
+  get subscriptionId() {
+    return this._subscriptionId;
+  }
+
+  @Input()
+  set subscriptionId(value: string) {
+    this._subscriptionId = value;
+    this.checkSubscription();
+  }
+
   ngOnInit() {
-    this.userId = this.authService.sessionInfo.userId;
-    console.log(this.userId, this.subscriptionId);
-    if (this.userId === this.subscriptionId) {
-      return;
-    }
-    this.subscriptionsService
-      .checkSubscription(this.userId, this.subscriptionId)
-      .subscribe(ok => this.isSubscribed = ok);
   }
 
   onBtnSubscribeClick(): void {
@@ -41,9 +45,31 @@ export class SubscriptionComponent implements OnInit {
       .catch(error => console.log(error));
   }
 
+  private checkSubscription(): void {
+    this._userId = this.authService.sessionInfo.userId;
+    console.log(this._userId, this.subscriptionId);
+    if (this._userId === this.subscriptionId) {
+      this.canSubscribe = false;
+      return;
+    }
+    this.subscriptionsService.checkSubscription(this.makeSubscription())
+      .then(() => {
+        this.isSubscribed = true;
+        this.canSubscribe = true;
+      })
+      .catch(error => {
+        if (error instanceof NotFoundError) {
+          this.isSubscribed = false;
+          this.canSubscribe = true;
+        } else {
+          this.canSubscribe = false;
+        }
+      });
+  }
+
   private makeSubscription(): Subscription {
     return {
-      userId: this.userId,
+      userId: this._userId,
       subscriptionId: this.subscriptionId
     };
   }
