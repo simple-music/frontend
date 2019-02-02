@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {UsersService} from '../../../../services/users.service';
 import {User} from '../../../../models/user';
-import {NotFoundError} from '../../../../errors/not-found-error';
 
 @Component({
   selector: 'app-users-list-item',
