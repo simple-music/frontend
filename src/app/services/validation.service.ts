@@ -10,6 +10,9 @@ export class ValidationService {
 
   // noinspection JSMethodCanBeStatic
   checkUsername(username: string): void {
+    if (username == null) {
+      throw new ValidationError('Username is required!');
+    }
     if (!/^\w+$/.test(username)) {
       throw new ValidationError('Only letters and digits are allowed in username!');
     }
@@ -17,6 +20,9 @@ export class ValidationService {
 
   // noinspection JSMethodCanBeStatic
   checkPassword(password: string): void {
+    if (password == null) {
+      throw new ValidationError('Password is required!');
+    }
     if (password.length < 8) {
       throw new ValidationError('Password too short!');
     }

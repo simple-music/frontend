@@ -39,9 +39,8 @@ export class MenuComponent implements OnInit {
   onBtnLogoutClick() {
     this.authService.logout()
       .catch(err => {
-        console.log(err); // TODO
+        console.log(err);
       });
-
     this.router.navigate(['/login']).then();
   }
 }
