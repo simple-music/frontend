@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+
 import {AuthService} from '../../services/auth.service';
 import {UsersService} from '../../services/users.service';
-import {Router} from '@angular/router';
 import {UserUpdate} from '../../models/user-update';
 import {NotFoundError} from '../../errors/not-found-error';
+import {AvatarsService} from '../../services/avatars.service';
 
 @Component({
   selector: 'app-settings',
@@ -13,24 +15,27 @@ import {NotFoundError} from '../../errors/not-found-error';
 export class SettingsComponent implements OnInit {
   userId: string;
 
-  userUpdate: UserUpdate;
+  userUpdate: UserUpdate = new UserUpdate();
   musicalInstruments: string;
   avatar: ArrayBuffer;
 
   constructor(private router: Router,
               private authService: AuthService,
-              private usersService: UsersService) {
+              private usersService: UsersService,
+              private avatarsService: AvatarsService) {
   }
 
   ngOnInit() {
-    if (!this.authService.sessionInfo) {
+    if (this.authService.sessionInfo) {
+      this.userId = this.authService.sessionInfo.userId;
+    } else {
       this.navigateToLogin();
+      return;
     }
-
-    this.userId = this.authService.sessionInfo.userId;
 
     this.usersService.getUser(this.userId)
       .then(user => {
+        console.log(user);
         this.userUpdate = {
           email: user.email,
           fullName: user.fullName,
@@ -60,9 +65,13 @@ export class SettingsComponent implements OnInit {
   }
 
   onBtnSubmitAvatarClick(): void {
-    console.log(this.avatar);
-    // TODO
-    this.navigateToLogin();
+    this.avatarsService.addAvatar(this.userId, this.avatar)
+      .then(() => {
+        this.navigateToLogin();
+      })
+      .catch(() => {
+        this.navigateToErrorPage();
+      });
   }
 
   onBtnSubmitUpdateClick(): void {
@@ -72,18 +81,22 @@ export class SettingsComponent implements OnInit {
   }
 
   private navigateToLogin(): void {
-    this.router.navigate(['/login']).then();
+    this.router.navigate(['/login']).then()
+      .catch(error => console.log(error));
   }
 
   private navigateToProfile(): void {
-    this.router.navigate(['/user/' + this.authService.sessionInfo.userId]).then();
+    this.router.navigate(['/user/' + this.authService.sessionInfo.userId]).then()
+      .catch(error => console.log(error));
   }
 
   private navigateToNotFound(): void {
-    this.router.navigate(['/not-found-error']).then();
+    this.router.navigate(['/not-found-error']).then()
+      .catch(error => console.log(error));
   }
 
   private navigateToErrorPage(): void {
-    this.router.navigate(['/internal-service-error']).then();
+    this.router.navigate(['/internal-service-error']).then()
+      .catch(error => console.log(error));
   }
 }
